@@ -252,6 +252,13 @@ const musiclist = [
     "cover": "红色高跟鞋 - 蔡健雅_cover.jpeg"
   },
   {
+    "file": "美人鱼 - 林俊杰.mp3",
+    "title": "美人鱼",
+    "artist": "林俊杰",
+    "duration": 254,
+    "cover": "美人鱼 - 林俊杰_cover.jpeg"
+  },
+  {
     "file": "肯定 - RE-D、是二哈ya、masta.mp3",
     "title": "肯定",
     "artist": "RE-D;是二哈ya;masta",
