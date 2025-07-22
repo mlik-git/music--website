@@ -14,13 +14,6 @@ const musiclist = [
     "cover": "不潮不用花钱 - 林俊杰_cover.jpeg"
   },
   {
-    "file": "你若成风 - 许嵩.mp3",
-    "title": "你若成风",
-    "artist": "许嵩",
-    "duration": 173,
-    "cover": "你若成风 - 许嵩_cover.jpeg"
-  },
-  {
     "file": "你若成风 - 许嵩、莫诗旎.mp3",
     "title": "你若成风",
     "artist": "许嵩;莫诗旎",
