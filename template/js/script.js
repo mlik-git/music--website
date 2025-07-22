@@ -263,3 +263,19 @@ if (document.getElementById('player-box') || document.querySelector('.player-mai
     }
   });
 } 
+
+// 菜单栏高亮
+(function() {
+  var navLinks = document.querySelectorAll('.header nav a');
+  var path = window.location.pathname.replace(/\\/g, '/');
+  navLinks.forEach(function(link) {
+    var href = link.getAttribute('href');
+    var hrefFile = href.split('/').pop();
+    var pathFile = path.split('/').pop();
+    if (hrefFile === pathFile || (hrefFile === 'index.html' && (pathFile === '' || pathFile === '/'))) {
+      link.classList.add('nav-link', 'active');
+    } else {
+      link.classList.add('nav-link');
+    }
+  });
+})(); 
