@@ -1,4 +1,243 @@
+// 页面加载动画
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建页面加载动画
+  const loadingDiv = document.createElement('div');
+  loadingDiv.className = 'page-loading';
+  loadingDiv.innerHTML = '<div class="loading-spinner"></div>';
+  document.body.appendChild(loadingDiv);
+  
+  // 页面加载完成后隐藏加载动画
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      loadingDiv.style.opacity = '0';
+      loadingDiv.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        loadingDiv.remove();
+      }, 500);
+    }, 300);
+  });
+  
+  // 如果页面已经加载完成，立即隐藏
+  if (document.readyState === 'complete') {
+    setTimeout(() => {
+      loadingDiv.style.opacity = '0';
+      loadingDiv.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        loadingDiv.remove();
+      }, 500);
+    }, 300);
+  }
+});
+
 // 首页和播放页通用脚本
+
+// --- 收藏功能 ---
+// 获取收藏列表
+function getFavorites() {
+  const favorites = localStorage.getItem('musicFavorites');
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+// 保存收藏列表
+function saveFavorites(favorites) {
+  localStorage.setItem('musicFavorites', JSON.stringify(favorites));
+}
+
+// 切换收藏状态
+function toggleFavorite(file) {
+  const favorites = getFavorites();
+  const index = favorites.indexOf(file);
+  
+  if (index > -1) {
+    favorites.splice(index, 1); // 取消收藏
+  } else {
+    favorites.push(file); // 添加收藏
+  }
+  
+  saveFavorites(favorites);
+  renderFavorites(); // 重新渲染收藏列表
+  
+  // 只更新当前收藏按钮的状态，不重新渲染整个音乐列表
+  updateFavoriteButton(file, index === -1);
+}
+
+// 更新单个收藏按钮状态
+function updateFavoriteButton(file, isFavorited) {
+  // 找到对应的收藏按钮
+  const musicCards = document.querySelectorAll('.music-card');
+  musicCards.forEach(card => {
+    const favoriteBtn = card.querySelector('.favorite-btn');
+    if (favoriteBtn && favoriteBtn.onclick.toString().includes(file)) {
+      if (isFavorited) {
+        favoriteBtn.classList.add('favorited');
+        favoriteBtn.title = '取消收藏';
+      } else {
+        favoriteBtn.classList.remove('favorited');
+        favoriteBtn.title = '收藏';
+      }
+    }
+  });
+}
+
+// 检查是否已收藏
+function isFavorited(file) {
+  const favorites = getFavorites();
+  return favorites.includes(file);
+}
+
+// 渲染收藏列表
+function renderFavorites() {
+  const favoritesList = document.getElementById('favorites-list');
+  if (!favoritesList) return;
+  
+  const favorites = getFavorites();
+  
+  if (favorites.length === 0) {
+    favoritesList.innerHTML = `
+      <div class="favorites-empty">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <p>还没有收藏任何歌曲</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #999;">点击歌曲卡片上的心形图标来收藏</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const favoriteSongs = musiclist.filter(song => favorites.includes(song.file));
+  
+  favoritesList.innerHTML = favoriteSongs.map((item, idx) => `
+    <div class="favorite-item" onclick="playFavorite('${item.file}')">
+      <div class="favorite-item-title" title="${item.title}">${item.title}</div>
+      <div class="favorite-item-artist" title="${item.artist}">${item.artist}</div>
+      <div class="favorite-item-actions">
+        <a class="btn" href="${basePath.player}?file=${encodeURIComponent(item.file)}">播放</a>
+        <button class="btn remove-btn" onclick="event.stopPropagation(); toggleFavorite('${item.file}')" title="取消收藏">×</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 播放收藏的歌曲
+function playFavorite(file) {
+  window.location.href = `${basePath.player}?file=${encodeURIComponent(file)}`;
+}
+
+// 导出收藏
+function exportFavorites() {
+  const favorites = getFavorites();
+  if (favorites.length === 0) {
+    alert('您还没有收藏任何歌曲！');
+    return;
+  }
+  
+  const exportData = {
+    version: '1.0',
+    exportTime: new Date().toISOString(),
+    favorites: favorites,
+    songDetails: musiclist.filter(song => favorites.includes(song.file))
+  };
+  
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `音乐收藏_${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  alert(`已导出 ${favorites.length} 首收藏歌曲！`);
+}
+
+// 导入收藏
+function importFavorites(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      let favorites = [];
+      
+      if (data.favorites && Array.isArray(data.favorites)) {
+        favorites = data.favorites;
+      } else if (Array.isArray(data)) {
+        favorites = data;
+      } else {
+        throw new Error('文件格式不正确');
+      }
+      
+      // 验证收藏的歌曲是否存在于当前音乐列表中
+      const validFavorites = favorites.filter(file => 
+        musiclist.some(song => song.file === file)
+      );
+      
+      if (validFavorites.length === 0) {
+        alert('导入的收藏中没有找到匹配的歌曲！');
+        return;
+      }
+      
+      // 合并现有收藏和新导入的收藏（去重）
+      const currentFavorites = getFavorites();
+      const mergedFavorites = [...new Set([...currentFavorites, ...validFavorites])];
+      
+      saveFavorites(mergedFavorites);
+      renderFavorites();
+      
+      // 更新所有收藏按钮状态，不重新渲染列表
+      updateAllFavoriteButtons();
+      
+      alert(`成功导入 ${validFavorites.length} 首歌曲到收藏！`);
+      
+    } catch (error) {
+      alert('导入失败：文件格式不正确或已损坏！');
+      console.error('导入错误:', error);
+    }
+  };
+  
+  reader.readAsText(file);
+  event.target.value = ''; // 清空文件输入
+}
+
+// 更新所有收藏按钮状态
+function updateAllFavoriteButtons() {
+  const favorites = getFavorites();
+  const musicCards = document.querySelectorAll('.music-card');
+  
+  musicCards.forEach(card => {
+    const favoriteBtn = card.querySelector('.favorite-btn');
+    if (favoriteBtn) {
+      const file = favoriteBtn.onclick.toString().match(/'([^']+)'/)?.[1];
+      if (file) {
+        if (favorites.includes(file)) {
+          favoriteBtn.classList.add('favorited');
+          favoriteBtn.title = '取消收藏';
+        } else {
+          favoriteBtn.classList.remove('favorited');
+          favoriteBtn.title = '收藏';
+        }
+      }
+    }
+  });
+}
+
+// 清空收藏
+function clearFavorites() {
+  if (confirm('确定要清空所有收藏吗？此操作不可恢复！')) {
+    saveFavorites([]);
+    renderFavorites();
+    
+    // 更新所有收藏按钮状态，不重新渲染列表
+    updateAllFavoriteButtons();
+    
+    alert('收藏已清空！');
+  }
+}
+
 function getQueryParam(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
@@ -27,29 +266,94 @@ if (document.getElementById('music-list')) {
   let filtered = musiclist;
 
   function renderList(arr) {
-    listEl.innerHTML = arr.map((item, idx) => `
-      <div class="music-card">
-        <img class="music-cover" src="${basePath.img}${item.cover || 'default.png'}" alt="封面">
-        <div class="music-title">${item.title}</div>
-        <div class="music-artist">${item.artist}</div>
-        <div class="music-actions">
-          <a class="btn" href="${basePath.player}?file=${encodeURIComponent(item.file)}">播放</a>
-          <a class="btn" href="${basePath.audio}${encodeURIComponent(item.file)}" download>下载</a>
+    listEl.innerHTML = arr.map((item, idx) => {
+      const isFav = isFavorited(item.file);
+      return `
+        <div class="music-card">
+          <button class="btn favorite-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${item.file}')" title="${isFav ? '取消收藏' : '收藏'}">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
+          <img class="music-cover" src="${basePath.img}${item.cover || 'default.png'}" alt="封面">
+          <div class="music-info">
+            <div class="music-title">${item.title}</div>
+            <div class="music-artist">${item.artist}</div>
+          </div>
+          <div class="music-actions">
+            <a class="btn" href="${basePath.player}?file=${encodeURIComponent(item.file)}">播放</a>
+            <a class="btn" href="${basePath.audio}${encodeURIComponent(item.file)}" download>下载</a>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   renderList(filtered);
 
+  // 搜索防抖优化
+  let searchTimeout;
   searchInput.addEventListener('input', function() {
-    const kw = this.value.trim().toLowerCase();
-    filtered = musiclist.filter(item =>
-      item.title.toLowerCase().includes(kw) ||
-      item.artist.toLowerCase().includes(kw)
-    );
-    renderList(filtered);
+    clearTimeout(searchTimeout);
+    
+    // 显示搜索中状态
+    const searchBtn = searchInput.nextElementSibling;
+    if (searchBtn) {
+      searchBtn.textContent = '搜索中...';
+      searchBtn.style.opacity = '0.7';
+    }
+    
+    searchTimeout = setTimeout(() => {
+      const kw = this.value.trim().toLowerCase();
+      filtered = musiclist.filter(item =>
+        item.title.toLowerCase().includes(kw) ||
+        item.artist.toLowerCase().includes(kw)
+      );
+      renderList(filtered);
+      
+      // 恢复搜索按钮状态
+      if (searchBtn) {
+        searchBtn.textContent = '搜索';
+        searchBtn.style.opacity = '1';
+      }
+      
+      // 显示搜索结果数量
+      showSearchResult(filtered.length, kw);
+    }, 300); // 300ms防抖延迟
   });
+  
+  // 显示搜索结果统计
+  function showSearchResult(count, keyword) {
+    let resultDiv = document.getElementById('search-result');
+    if (!resultDiv) {
+      resultDiv = document.createElement('div');
+      resultDiv.id = 'search-result';
+      resultDiv.style.cssText = `
+        text-align: center;
+        margin: 10px 0;
+        color: #3a8dde;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      `;
+      searchInput.parentNode.parentNode.insertBefore(resultDiv, searchInput.parentNode.nextSibling);
+    }
+    
+    if (keyword) {
+      resultDiv.textContent = `找到 ${count} 首相关歌曲`;
+      resultDiv.style.opacity = '1';
+      
+      // 2秒后淡出
+      setTimeout(() => {
+        resultDiv.style.opacity = '0';
+      }, 2000);
+    } else {
+      resultDiv.style.opacity = '0';
+    }
+  }
+  
+  // 初始化收藏列表
+  renderFavorites();
 }
 
 // player.html 逻辑
@@ -82,6 +386,78 @@ if (document.getElementById('player-box') || document.querySelector('.player-mai
     } else {
       document.getElementById('player-title').textContent = '未找到该歌曲';
     }
+
+    // --- 错误处理 ---
+    // 音频加载错误处理
+    audio.addEventListener('error', function(e) {
+      console.error('音频加载失败:', e);
+      const errorMessage = document.getElementById('player-title');
+      if (errorMessage) {
+        errorMessage.textContent = '音频文件加载失败';
+        errorMessage.style.color = '#ff6b6b';
+      }
+      
+      // 显示错误提示
+      showError('音频文件加载失败，请检查文件是否存在或网络连接');
+      
+      // 禁用播放按钮
+      if (playBtn) {
+        playBtn.disabled = true;
+        playBtn.style.opacity = '0.5';
+        playBtn.style.cursor = 'not-allowed';
+      }
+    });
+
+    // 图片加载错误处理
+    cover.addEventListener('error', function() {
+      console.warn('封面图片加载失败，使用默认图片');
+      cover.src = `${basePath.img}default.png`;
+    });
+
+    // 显示错误提示函数
+    function showError(message) {
+      // 创建错误提示元素
+      let errorDiv = document.getElementById('error-message');
+      if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'error-message';
+        errorDiv.style.cssText = `
+          position: fixed;
+          top: 80px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #ff6b6b;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+          z-index: 1000;
+          font-size: 14px;
+          max-width: 300px;
+          text-align: center;
+        `;
+        document.body.appendChild(errorDiv);
+      }
+      
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      
+      // 3秒后自动隐藏
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+      }, 3000);
+    }
+
+    // 网络状态监听
+    window.addEventListener('online', function() {
+      console.log('网络已连接');
+      // 可以在这里重新加载音频
+    });
+
+    window.addEventListener('offline', function() {
+      console.log('网络已断开');
+      showError('网络连接已断开，请检查网络设置');
+    });
 
     // --- 歌词处理 (加载部分) ---
     function loadLyrics(fileName) {
