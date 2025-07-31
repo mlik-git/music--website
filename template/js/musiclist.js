@@ -7,6 +7,13 @@ const musiclist = [
     "cover": "一笑倾城 - 汪苏泷_cover.jpeg"
   },
   {
+    "file": "七里香 - 周杰伦.mp3",
+    "title": "七里香",
+    "artist": "周杰伦",
+    "duration": 299,
+    "cover": "七里香 - 周杰伦_cover.jpeg"
+  },
+  {
     "file": "不潮不用花钱 - 林俊杰.mp3",
     "title": "不潮不用花钱",
     "artist": "林俊杰",
@@ -19,6 +26,13 @@ const musiclist = [
     "artist": "许嵩;莫诗旎",
     "duration": 220,
     "cover": "你若成风 - 许嵩、莫诗旎_cover.jpeg"
+  },
+  {
+    "file": "兰亭序 - 周杰伦.mp3",
+    "title": "兰亭序",
+    "artist": "周杰伦",
+    "duration": 253,
+    "cover": "兰亭序 - 周杰伦_cover.jpeg"
   },
   {
     "file": "十年 - 陈奕迅.mp3",
@@ -68,6 +82,13 @@ const musiclist = [
     "artist": "许嵩",
     "duration": 277,
     "cover": "多余的解释 - 许嵩_cover.jpeg"
+  },
+  {
+    "file": "夜曲 - 周杰伦.mp3",
+    "title": "夜曲",
+    "artist": "周杰伦",
+    "duration": 226,
+    "cover": "夜曲 - 周杰伦_cover.jpeg"
   },
   {
     "file": "天龙八部之宿敌 - 许嵩.mp3",
@@ -133,6 +154,13 @@ const musiclist = [
     "cover": "手心的蔷薇 - 林俊杰、G.E.M. 邓紫棋_cover.jpeg"
   },
   {
+    "file": "搁浅 - 周杰伦.mp3",
+    "title": "搁浅",
+    "artist": "周杰伦",
+    "duration": 240,
+    "cover": "搁浅 - 周杰伦_cover.jpeg"
+  },
+  {
     "file": "摄影艺术 - 许嵩.mp3",
     "title": "摄影艺术",
     "artist": "许嵩",
@@ -152,6 +180,20 @@ const musiclist = [
     "artist": "周杰伦",
     "duration": 259,
     "cover": "星晴 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "晴天 - 周杰伦.mp3",
+    "title": "晴天",
+    "artist": "周杰伦",
+    "duration": 269,
+    "cover": "晴天 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "暗号 - 周杰伦.mp3",
+    "title": "暗号",
+    "artist": "周杰伦",
+    "duration": 271,
+    "cover": "暗号 - 周杰伦_cover.jpeg"
   },
   {
     "file": "最佳许嵩 - 歌手.mp3",
@@ -210,6 +252,20 @@ const musiclist = [
     "cover": "燕归巢 - 许嵩_cover.jpeg"
   },
   {
+    "file": "爱你没差 - 周杰伦.mp3",
+    "title": "爱你没差",
+    "artist": "周杰伦",
+    "duration": 280,
+    "cover": "爱你没差 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "爱如火 - 那艺娜.mp3",
+    "title": "爱如火",
+    "artist": "那艺娜",
+    "duration": 204,
+    "cover": "爱如火 - 那艺娜_cover.jpeg"
+  },
+  {
     "file": "犯贱 - 徐良、阿悄.mp3",
     "title": "犯贱",
     "artist": "徐良;阿悄",
@@ -222,6 +278,13 @@ const musiclist = [
     "artist": "许嵩",
     "duration": 260,
     "cover": "玫瑰花的葬礼 - 许嵩_cover.jpeg"
+  },
+  {
+    "file": "稻香 - 周杰伦.mp3",
+    "title": "稻香",
+    "artist": "周杰伦",
+    "duration": 223,
+    "cover": "稻香 - 周杰伦_cover.jpeg"
   },
   {
     "file": "突然好想你 - 五月天.mp3",
@@ -266,6 +329,13 @@ const musiclist = [
     "cover": "肯定 - RE-D、是二哈ya、masta_cover.jpeg"
   },
   {
+    "file": "花海 - 周杰伦.mp3",
+    "title": "花海",
+    "artist": "周杰伦",
+    "duration": 264,
+    "cover": "花海 - 周杰伦_cover.jpeg"
+  },
+  {
     "file": "说爱你 - 蔡依林.mp3",
     "title": "说爱你",
     "artist": "蔡依林",
@@ -285,5 +355,12 @@ const musiclist = [
     "artist": "许嵩",
     "duration": 249,
     "cover": "雅俗共赏 - 许嵩_cover.jpeg"
+  },
+  {
+    "file": "青花瓷 - 周杰伦.mp3",
+    "title": "青花瓷",
+    "artist": "周杰伦",
+    "duration": 239,
+    "cover": "青花瓷 - 周杰伦_cover.jpeg"
   }
 ];
