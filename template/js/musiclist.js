@@ -28,11 +28,25 @@ const musiclist = [
     "cover": "你若成风 - 许嵩、莫诗旎_cover.jpeg"
   },
   {
+    "file": "你还要我怎样 - 薛之谦.mp3",
+    "title": "你还要我怎样",
+    "artist": "薛之谦",
+    "duration": 310,
+    "cover": "你还要我怎样 - 薛之谦_cover.jpeg"
+  },
+  {
     "file": "兰亭序 - 周杰伦.mp3",
     "title": "兰亭序",
     "artist": "周杰伦",
     "duration": 253,
     "cover": "兰亭序 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "刚刚好 - 薛之谦.mp3",
+    "title": "刚刚好",
+    "artist": "薛之谦",
+    "duration": 250,
+    "cover": "刚刚好 - 薛之谦_cover.jpeg"
   },
   {
     "file": "十年 - 陈奕迅.mp3",
@@ -91,6 +105,13 @@ const musiclist = [
     "cover": "夜曲 - 周杰伦_cover.jpeg"
   },
   {
+    "file": "天外来物 - 薛之谦.mp3",
+    "title": "天外来物",
+    "artist": "薛之谦",
+    "duration": 257,
+    "cover": "天外来物 - 薛之谦_cover.jpeg"
+  },
+  {
     "file": "天龙八部之宿敌 - 许嵩.mp3",
     "title": "天龙八部之宿敌",
     "artist": "许嵩",
@@ -133,6 +154,13 @@ const musiclist = [
     "cover": "庐州月 - 许嵩_cover.jpeg"
   },
   {
+    "file": "怪咖 - 薛之谦.mp3",
+    "title": "怪咖",
+    "artist": "薛之谦",
+    "duration": 250,
+    "cover": "怪咖 - 薛之谦_cover.jpeg"
+  },
+  {
     "file": "惊鸿一面 - 许嵩、黄龄.mp3",
     "title": "惊鸿一面",
     "artist": "许嵩;黄龄",
@@ -145,6 +173,13 @@ const musiclist = [
     "artist": "许嵩",
     "duration": 249,
     "cover": "想象之中 - 许嵩_cover.jpeg"
+  },
+  {
+    "file": "我好像在哪见过你 - 薛之谦.mp3",
+    "title": "我好像在哪见过你",
+    "artist": "薛之谦",
+    "duration": 279,
+    "cover": "我好像在哪见过你 - 薛之谦_cover.jpeg"
   },
   {
     "file": "手心的蔷薇 - 林俊杰、G.E.M. 邓紫棋.mp3",
@@ -194,6 +229,13 @@ const musiclist = [
     "artist": "周杰伦",
     "duration": 271,
     "cover": "暗号 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "暧昧 - 薛之谦.mp3",
+    "title": "暧昧",
+    "artist": "薛之谦",
+    "duration": 312,
+    "cover": "暧昧 - 薛之谦_cover.jpeg"
   },
   {
     "file": "最佳许嵩 - 歌手.mp3",
@@ -280,6 +322,13 @@ const musiclist = [
     "cover": "玫瑰花的葬礼 - 许嵩_cover.jpeg"
   },
   {
+    "file": "租购 - 薛之谦.mp3",
+    "title": "租购",
+    "artist": "薛之谦",
+    "duration": 270,
+    "cover": "租购 - 薛之谦_cover.jpeg"
+  },
+  {
     "file": "稻香 - 周杰伦.mp3",
     "title": "稻香",
     "artist": "周杰伦",
@@ -315,6 +364,13 @@ const musiclist = [
     "cover": "红色高跟鞋 - 蔡健雅_cover.jpeg"
   },
   {
+    "file": "绅士 - 薛之谦.mp3",
+    "title": "绅士",
+    "artist": "薛之谦",
+    "duration": 291,
+    "cover": "绅士 - 薛之谦_cover.jpeg"
+  },
+  {
     "file": "美人鱼 - 林俊杰.mp3",
     "title": "美人鱼",
     "artist": "林俊杰",
@@ -334,6 +390,13 @@ const musiclist = [
     "artist": "周杰伦",
     "duration": 264,
     "cover": "花海 - 周杰伦_cover.jpeg"
+  },
+  {
+    "file": "认真的雪 - 薛之谦.mp3",
+    "title": "认真的雪",
+    "artist": "薛之谦",
+    "duration": 259,
+    "cover": null
   },
   {
     "file": "说爱你 - 蔡依林.mp3",
