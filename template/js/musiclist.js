@@ -396,7 +396,7 @@ const musiclist = [
     "title": "认真的雪",
     "artist": "薛之谦",
     "duration": 259,
-    "cover": null
+    "cover": "认真的雪 - 薛之谦_cover.jpeg"
   },
   {
     "file": "说爱你 - 蔡依林.mp3",
